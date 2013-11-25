@@ -1,0 +1,265 @@
+Using git bisect
+----------------
+    git bisect start
+    git log                 // find a commit that is good
+    git checkout commit#
+    git bisect good         // when a good commit has been found
+
+    git checkout master
+    git bisect bad
+    git bisect bad          // repeat until we find a good commit
+    git bisect good
+    git checkout commit#
+    git show                // see if we can determine what was bad
+
+If all you really want to do is to remove from the index the files that are 
+no longer present in the working tree, use the following command:
+
+    git diff --name-only --diff-filter=D -z | xargs -0 git rm --cached
+
+
+
+OK, but here's the summary:  origin/master is something that exists on your
+local machine.  origin's master is the branch of master that is on github.
+
+Earlier, when you used the command "git branch -d -r origin/stable", you were
+*not* deleting the stable branch on origin, you were deleting your local
+remote tracking branch.
+
+--------------------------------------------------
+See if a branch has been merged or not with master
+--------------------------------------------------
+    git branch --merged
+
+    git branch --no-merged
+
+
+---------
+GIT RESET
+---------
+Use git reset HEAD to unstage files that you previously ran git add on and wish
+to not include in the next commit
+
+    git reset HEAD -- <file name>
+
+
+Mark, the issue here is you reset your master branch to its own HEAD, which
+contained the commit you were trying to get rid of.  If you hadn't pushed 
+your master branch yet origin/master would reflect the state of master on 
+github while master would be your local copy with the erroneous commit.  
+What you wanted to do was:
+
+    git reset --hard origin/master
+
+which would have reset both the head and the file system of your borked 
+master to the state of origin/master.
+
+----------
+GIT REVERT
+----------
+I merged a branch into master and pushed master.  I had a mistake and want to
+revert.
+
+    git revert [commit#]
+    git log                       // see new commit for revert
+    git cherry -v master          // probably won't see anything
+    git cherry -v origin/master   // here we'll see the new revert commit
+    git push origin master        // push new commit
+
+-------------------------------------------------------
+Deploy Master (api, hotel_scraper & reservation_engine)
+-------------------------------------------------------
+
+[api]:
+    git checkout master
+    git pull
+    git submodule update
+    git checkout stable
+    git pull
+    git submodule update
+    git checkout master
+    git cherry -v stable
+    git checkout stable
+    git merge master
+
+    bin/rake
+
+    git push origin stable
+    bin/cap staging deploy -S branch=stable   --> no 'uni'
+    bin/cap produciton deploy
+
+
+[hotel_scraper]:
+    git checkout master
+    git pull
+    git submodule update
+    git checkout stable
+    git pull
+    git submodule update
+    git checkout master
+    git cherry -v stable
+    git checkout stable
+    git merge master
+
+    bin/rake
+
+    git push origin stable
+    bin/cap uni staging deploy -S branch=stable
+    bin/cap production deploy
+
+
+[reservation_engine]:
+    git checkout master
+    git pull
+    git submodule update
+    bin/rake
+    (no stable branch)
+    bin/cap staging deploy -S branch=master
+    bin/cap production deploy
+
+
+
+Show the file contents at the time of a particular commit
+---------------------------------------------------------
+[from the 'javascripts' dir]:
+    git show 38d06b640c5f8e7bfe5f1ae3cbdbed3df1d04771:./jrs_results.js
+
+[from the root book_direct dir]:
+    git show 38d06b640c5f8e7bfe5f1ae3cbdbed3df1d04771:javascripts/jrs_results.js
+
+
+Delete all stale remote-tracking branches under origin
+------------------------------------------------------
+$ git remote prune --dry-run origin
+Pruning origin
+URL: git@github.com:jackrabbit/book_direct_php.git
+ * [would prune] origin/mdb_jrDatePicker
+
+$ git remote prune origin
+Pruning origin
+URL: git@github.com:jackrabbit/book_direct_php.git
+ * [pruned] origin/mdb_jrDatePicker
+
+
+GET a branch someone else created and set up for tracking
+---------------------------------------------------------
+    git co --track -b featurebranch origin/featurebranch
+    git checkout --track -b mdb_DEV_1631 origin/mdb_DEV_1631
+
+
+GET a specific branch that has not been merged
+----------------------------------------------
+    git pull origin mdb_DEV_1480_french_view_rates_by_date
+
+
+DELETE remote branches
+----------------------
+(from master branch)
+    git push --delete origin mdb_DEV-1388_lodging_reports_suppress_details_on_flag
+
+    git branch -r -D origin/mdb_DEV_1899_verbose_rates_show_all
+
+
+DELETE local branches
+---------------------
+(from master branch)
+    git branch -d mdb_DEV-1408_referrals_badvalues
+
+
+List file names in a branch
+---------------------------
+(from mdb_feature_branch)
+    git diff --name-only master
+
+
+Stashing files
+--------------
+    git stash save
+    git stash list
+    git stash pop
+
+Checking a file out of origin/master
+------------------------------------
+    git checkout origin/master booking_results.php
+
+
+GIT Procedure
+-------------
+    git status
+    git checkout master
+    git pull
+    git checkout -b mdb_feature_name
+
+    git diff [file]
+    git add [file]
+    git rm [file]
+    git status
+    git commit [file]
+
+
+    git checkout master
+    git pull
+    git checkout mdb_feature_name
+    git cherry -v master
+    git rebase -i master
+    git push origin mdb_feature_name
+
+
+Deploy to staging
+-----------------
+    bin/cap uni staging deploy -S branch=mdb_feature_name
+    bin/cap uni admin_staging deploy -S branch=xyz       (hotel_scraper: admin)
+    bin/cap uni admin_staging deploy:migrations -S branch=xyz
+    bin/cap uni admin_staging deploy:migrate -S branch=dude
+    bin/cap uni staging deploy:setup -S branch=wzr_clean_up_display_environment_code
+    RIGHTSCALE_STAGING_ID=713770001 bin/cap uni staging deploy -S branch=
+
+
+Merge and deploy to production
+------------------------------
+    git checkout mdb_feature_name      --+
+    git cherry -v master                 |
+    git rebase -i master                 |
+                                         |--> merge to master
+    git checkout master                  |
+    git merge mdb_feature_name           |
+    git push origin master             --+
+
+<-----> BELOW ONLY FOR book_direct <----->
+
+    git checkout stable                --+
+    git pull                             |
+    git checkout master                  |
+    git cherry -v stable                 |--> merge to stable
+    git checkout stable                  |
+    git merge master                     |
+    git push origin stable             --+
+
+
+Deploy to production
+--------------------
+    bin/cap production deploy
+    bin/cap production deploy:migrations  (migrate ONLY does db:migrate)
+    bin/cap production deploy nginx:configure
+    bin/cap production nginx:restart
+
+    api does not have task 'uni'
+    ----------------------------
+    bin/cap staging deploy -S branch=stable
+    bin/cap production deploy
+
+
+Pull Requests
+-------------
+    git checkout feature_branch
+    git checkout master
+    git pull
+
+    git checkout feature_branch
+    git rebase -i master
+
+    git checkout master
+    git merge feature_branch
+    git push origin master
+
+

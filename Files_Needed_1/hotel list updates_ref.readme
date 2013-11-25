@@ -1,0 +1,8 @@
+insert function into terminal:
+function gll() { grep -C 2 "$1" ~/src/slippery/feeds/*.xml | egrep -i '<(name|component)'; }
+
+open most recent .csv file from google 
+
+open the hotel index from google drive (google HPA status folder)
+
+than cross reference each location 

@@ -1,0 +1,111 @@
+grep -rl '[-][>]query' *
+
+x button_hook/jrs_button_hook_common.php
+x itsatrip_prices.php
+x set_fb_clone.php
+x sms/add_prospect.php
+x sms/last_login.php
+x v002/dbase/aggregates_events_list.php
+x v002/dbase/classes/aggregate_classes.php
+x v002/dbase/classes/amenities_classes.php
+x v002/dbase/classes/api_classes.php
+v002/dbase/classes/badTripClasses.php (in Progress: work on events)
+v002/dbase/classes/book_now_classes.php
+v002/dbase/classes/bookingClasses.php
+v002/dbase/classes/cap_click_classes.php
+v002/dbase/classes/category_classes.php
+v002/dbase/classes/catLinkClasses.php
+v002/dbase/classes/cj_booking_classes.php
+v002/dbase/classes/cleanUpClasses.php
+v002/dbase/classes/clickLinkClasses.php
+v002/dbase/classes/clone_classes.php
+v002/dbase/classes/clone_revenue_shares_classes.php
+v002/dbase/classes/clone_revshare_reports_classes.php
+v002/dbase/classes/clone_revshare_slscomm_summarycalcs_classes.php
+v002/dbase/classes/cloneLinkClasses.php
+v002/dbase/classes/commission_classes.php
+v002/dbase/classes/event_info_rules.php
+v002/dbase/classes/event_logs_classes.php
+v002/dbase/classes/event_pricing_classes.php
+v002/dbase/classes/fields_classes.php
+v002/dbase/classes/form_classes.php
+v002/dbase/classes/geocoords_classes.php
+v002/dbase/classes/group_classes.php
+v002/dbase/classes/jrs_sms.php
+v002/dbase/classes/minimum_stay_classes.php
+v002/dbase/classes/new_s3/services/s3.class.php
+v002/dbase/classes/notes_classes.php
+v002/dbase/classes/points_of_interest_classes.php
+v002/dbase/classes/rating_categories_classes.php
+v002/dbase/classes/removeDups.php
+v002/dbase/classes/reportClasses.php
+v002/dbase/classes/restaurants.php
+v002/dbase/classes/resultsDisplayClasses.php
+v002/dbase/classes/sales_commission_audit_reports_classes.php
+v002/dbase/classes/sales_commission_reports_classes.php
+v002/dbase/classes/sales_team_classes.php
+v002/dbase/classes/sales_team_commissions_classes.php
+v002/dbase/classes/sales_territories_classes.php
+v002/dbase/classes/sales_territories_clones_classes.php
+v002/dbase/classes/scrapeClasses.php
+v002/dbase/classes/sem_redirect.php
+v002/dbase/classes/sitelib_classes.php
+v002/dbase/classes/translation_classes.php
+v002/dbase/classes/trips_classes.php
+v002/dbase/classes/user_classes.php
+v002/dbase/classes/WCT.php
+v002/dbase/classes/website_classes.php
+v002/dbase/classes/widgets_classes.php
+v002/dbase/clone_broken_imgs.php
+v002/dbase/clone_coverage_report.php
+v002/dbase/clone_sales_report.php
+v002/dbase/clones.php
+v002/dbase/clones_ajax.php
+v002/dbase/commissions_select.php
+v002/dbase/control_panel.php
+v002/dbase/edit_net_bookings.php
+v002/dbase/eFunctions.php
+v002/dbase/embedded_properties_ajax.php
+v002/dbase/enterEvent.php
+v002/dbase/event_logs.php
+v002/dbase/events_daily_noclicks.php
+v002/dbase/functions/clone_functions.php
+v002/dbase/functions/import_thla_functions.php
+v002/dbase/functions/set_zips_for_clone.php
+v002/dbase/load_net_bookings.php
+v002/dbase/lodging_report.php
+v002/dbase/migrate_user_assocs.php
+v002/dbase/migrate_users.php
+v002/dbase/partner_fix.php
+v002/dbase/php_ajax/events_popup.php
+v002/dbase/php_ajax/price_calendar_wrapper.php
+v002/dbase/php_ajax/price_calendar_wrapper_daytona.php
+v002/dbase/php_ajax/specials.php
+v002/dbase/queries/get_client_primary_contacts.php
+v002/dbase/queries/get_clone_campaign_clicks.php
+v002/dbase/queries/get_clone_specials_click_totals.php
+v002/dbase/queries/get_clone_specials_clicks.php
+v002/dbase/reports/aggregate_event.php
+v002/dbase/reports/aggregate_list.php
+v002/dbase/reports/includes/rptsummarycountclicks_calc.php
+v002/dbase/reports/includes/rptsummaryrescons_calc.php
+v002/dbase/reports/list_pricing_model.php
+v002/dbase/reports/monthly_launch_mailer.php
+v002/dbase/reports/precalc_summary_counts.php
+v002/dbase/reports/tally_pricing_models.php
+v002/dbase/ruby_safenames_duplicate.php
+v002/dbase/ruby_safenames_off.php
+v002/dbase/s3_migration.php
+v002/dbase/send_cucumber_list.php
+v002/dbase/signups_billing_report.php
+v002/dbase/sqlTester/add_events.php
+v002/dbase/sqlTester/add_events_by_group.php
+v002/dbase/sqlTester/add_events_city.php
+v002/dbase/sqlTester/amenities_add.php
+v002/dbase/sqlTester/buttons_add.php
+v002/dbase/sqlTester/events_migration.php
+v002/dbase/sqlTester/submissions_migration.php
+v002/dbase/website_remote_id_search.php
+x v002/dbase/websites_events_list.php
+x v002/dbase/wyndam_import_list.php
+x v002/dbase/wyndham_import_functions.php
