@@ -17,7 +17,7 @@
     exit 1
   fi
   
-  dump_date="$1"
+  dump_date=“20140101”
   
   function load_db() {
     db_name="$1"
