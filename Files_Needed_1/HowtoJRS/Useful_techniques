@@ -1,0 +1,115 @@
+
+
+
+
+
+|||||||| single bash script for loading the DB snapshots|||||||||
+
+  time bzip2 -cd newMexicoTrips-20130304.sql.bz2 | mysql5 -u root newMexicoTrips
+
+
+||||||| PHP script that does DB snapshots at once and assumes that they are in the downloads folder ||||||||
+
+  #! /bin/bash
+  
+  if [[ -z "$1" ]]; then
+    echo "You must specify a date, e.g. 20131002" 1>&2
+    exit 1
+  fi
+  
+  dump_date=“20140201”
+
+  function load_db() {
+    db_name="$1"
+    stem_name="$2"
+    dump_date="$3"
+
+    echo "drop database IF EXISTS $db_name; create database $db_name;" | mysql -u root
+
+    echo Loading $db_name
+
+    time bunzip2 < ~/Downloads/"$stem_name"-"$dump_date”.small.sql.bz2 | mysql -u root "$db_name"
+    echo Added $db_name
+  }
+
+  load_db 'reservation_engine_development' 'reservation_engine' "$dump_date"
+  load_db 'hotel_scraper' 'hotel_scraper' "$dump_date"
+  load_db 'newMexicoTrips' 'newMexicoTrips' "$dump_date"
+
+
+
+
+||||||| GIT WORKFLOW FOR PHP SECURE QUERIES |||||||
+
+  git checkout -b mdb_DEV_2661_secure_php_db_queries
+  
+  (make your mods)...
+  
+  git st
+  git diff button_hook/jrs_button_hook_common.php
+  git add button_hook/jrs_button_hook_common.php
+  git commit
+  
+  git checkout master
+  git pull
+  
+  git checkout mdb_DEV_2661_secure_php_db_queries
+  git rebase -i master
+  git push origin mdb_DEV_2661_secure_php_db_queries
+  
+  MAKE PULL REQUEST & CONTINUE ONWARD!
+  
+  Log Message
+   [DEV-2661] Using run_secure_query()
+
+
+|||||||||| Search Functions |||||||||||||
+
+
+  function gll() { grep -C 2 "$1" ~/src/slippery/feeds/*.xml | egrep -i '<(name|component)'; }
+  function gll() { grep -C 2 "$1" ~/Downloads/*.csv | egrep -i '<(name|component)'; }
+  function hll() { grep -C 1 "$1" ~/Downloads/*FeedImport/*.csv | egrep -i 'Matched'; }
+  function sll() { grep -i "$1" ~/Desktop/TA/*.csv | egrep -o -m1 "Matched"}
+  function cll() { grep -C 1 "$1" ~/Downloads/hotel_list_jackrabbit.csv }
+  
+  function sll() { 
+  green="0;32"
+  Red="0;31"
+  search=`grep -i -q "$1" ~/Desktop/TA/*.csv | egrep -o -h -m1 "Matched"`
+  if $search; then
+     echo "\e[00;31mNot Found\e[00m"
+  else
+     echo "\e[00;32mMatched\e[00m" 
+  fi
+  }
+  
+  filename= 'grep -C 2 "$1" ~/Desktop/TA/*.csv | egrep -i "Matched"'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
