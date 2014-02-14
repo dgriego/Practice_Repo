@@ -33,6 +33,12 @@ See if a branch has been merged or not with master
 
     git branch --no-merged
 
+in a remote context
+
+    git branch -r --merged | grep djg
+
+    git branch -r --no-merged | grep djg
+
 
 ---------
 GIT RESET
